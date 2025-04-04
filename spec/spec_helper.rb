@@ -13,7 +13,21 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'factory_bot'
+require 'simplecov'
+
+SimpleCov.start 'rails' do
+  add_filter '/spec/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+  
+  # Define groups for different parts of your application
+  add_group 'Services', 'app/services'
+end
+
+Dir[File.join(File.dirname(__FILE__), 'factories', '**', '*.rb')].each { |f| require f }
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
